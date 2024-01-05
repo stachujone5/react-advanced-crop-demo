@@ -34,7 +34,8 @@ export default function Home() {
         ref={cropperRef}
         src={"https://picsum.photos/500/500"}
         stencilProps={{
-          aspectRatio: width / height,
+          aspectRatio:
+            selectedService !== "Custom" ? width / height : undefined,
         }}
       />
       <div className="flex flex-col">
@@ -58,22 +59,38 @@ export default function Home() {
         <label htmlFor="width-input">Width (px)</label>
         <input
           id="width-input"
-          type="number"
+          type="text"
           value={width}
           onChange={(e) => {
             setSelectedService("Custom");
-            setWidth(Number(e.target.value));
+            const newValue = Number(e.target.value);
+            if (!isNaN(newValue) && newValue > 0) {
+              setWidth(newValue);
+            }
+          }}
+          onKeyPress={(e) => {
+            if (!/[0-9]/.test(e.key)) {
+              e.preventDefault();
+            }
           }}
           className="mb-4 p-2 border-2 border-gray-300 rounded"
         />
         <label htmlFor="height-input">Height (px)</label>
         <input
           id="height-input"
-          type="number"
+          type="text"
           value={height}
           onChange={(e) => {
             setSelectedService("Custom");
-            setHeight(Number(e.target.value));
+            const newValue = Number(e.target.value);
+            if (!isNaN(newValue) && newValue > 0) {
+              setHeight(newValue);
+            }
+          }}
+          onKeyPress={(e) => {
+            if (!/[0-9]/.test(e.key)) {
+              e.preventDefault();
+            }
           }}
           className="mb-4 p-2 border-2 border-gray-300 rounded"
         />
